@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Billing System</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <!-- PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Grow Together</div>
+    <ul>
+        <li><a href="home.html" onclick="showPage('home')">Home</a></li>
+        <li><a href="index.html" onclick="showPage('billing')">Billing</a></li>
+        <li><a href="calculator.html" onclick="showPage('calculator')">Calculator</a></li>
+        <li><a href="about.html" onclick="showPage('about')">About</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+    </ul>
+</nav>
+
+
+    
+
+
+    <!--customer division -->
+<div class="container">
+    <h2>Billing System</h2>
+
+    <!-- Customer Info -->
+    <div class="customer">
+    <input type="text" id="customerName" placeholder="Customer Name">
+    <div class="date-box"><span id="date"></span></div>
+</div>
+
+<div class="container" id="calculatorPage" style="display:none">
+    <h2>Calculator</h2>
+
+    <input type="text" id="calcDisplay" class="calc-display" readonly>
+
+    <div class="calc-grid">
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button onclick="press('/')">÷</button>
+
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button onclick="press('*')">×</button>
+
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button onclick="press('-')">−</button>
+
+        <button onclick="press('0')">0</button>
+        <button onclick="press('.')">.</button>
+        <button onclick="calculateResult()">=</button>
+        <button onclick="press('+')">+</button>
+
+        <button class="clear-btn" onclick="clearCalc()">C</button>
+    </div>
+</div>
+
+
+
+
+    <!-- Item Input -->
+    <div class="input-box">
+        <input type="text" id="item" placeholder="Item Name">
+        <br>
+        <input type="number" id="qty" placeholder="Qty">
+        <br>
+        <input type="number" id="price" placeholder="Price">
+        <br>
+        <button onclick="addItem()">Add</button>
+    </div>
+
+    <!-- Invoice -->
+    <div id="invoice">
+        <h3>Invoice</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="billBody"></tbody>
+        </table>
+
+        <div class="total-box">
+            <p>Subtotal: ₹ <span id="subTotal">0</span></p>
+            <p>CGST (9%): ₹ <span id="cgst">0</span></p>
+            <p>SGST (9%): ₹ <span id="sgst">0</span></p>
+            <h4>Grand Total: ₹ <span id="grandTotal">0</span></h4>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+        <button onclick="downloadPDF()">Download PDF</button>
+        <button onclick="printInvoice()">Print</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
