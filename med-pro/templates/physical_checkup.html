@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physical Wellness Dashboard</title>
+<style>
+:root {
+    --bg-main: #020617;
+    --card-bg: rgba(15, 23, 42, 0.65);
+    --accent: #38bdf8;
+    --text-main: #e5e7eb;
+    --text-muted: #94a3b8;
+    --alert-good: #4ade80;
+    --alert-warning: #facc15;
+    --alert-bad: #f87171;
+}
+
+/* ===== Global ===== */
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top left, #020617, #0d0d23);
+    color: var(--text-main);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* ===== Animated Floating Background ===== */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(56,189,248,0.15), transparent 60%);
+    border-radius: 50%;
+    animation: float 25s infinite alternate ease-in-out;
+    pointer-events: none;
+}
+body::after {
+    animation-delay: 12s;
+    background: radial-gradient(circle, rgba(14,165,233,0.12), transparent 60%);
+}
+
+@keyframes float {
+    from { transform: translate(-200px, -150px) rotate(0deg); }
+    to { transform: translate(200px, 150px) rotate(360deg); }
+}
+
+/* ===== Glass Card ===== */
+.card {
+    width: 750px;
+    max-width: 95%;
+    padding: 40px 50px;
+    border-radius: 20px;
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    z-index: 1;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+}
+
+h2 {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+/* ===== Form ===== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+input {
+    margin-top: 6px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(148,163,184,0.25);
+    background: rgba(2,6,23,0.6);
+    color: var(--text-main);
+    font-size: 14px;
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
+    transform: scale(1.02);
+}
+
+/* ===== Live Results ===== */
+#results {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 16px;
+    background: rgba(56,189,248,0.08);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ===== Result Highlights ===== */
+.result-item {
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+/* ===== Button ===== */
+button {
+    margin-top: 20px;
+    padding: 14px;
+    background: linear-gradient(135deg, #0284c7, #0ea5e9);
+    border: none;
+    border-radius: 14px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(14,165,233,0.35);
+}
+
+/* ===== Responsive ===== */
+@media(max-width: 800px) {
+    .card { padding: 30px 25px; }
+    input { font-size: 13px; padding: 10px 12px; }
+    button { font-size: 15px; }
+}
+@media(max-width: 500px) {
+    h2 { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Physical Wellness Dashboard</h2>
+
+    <form id="checkupForm">
+        <label>Weight (kg)
+            <input type="number" id="weight">
+        </label>
+        <label>Height (cm)
+            <input type="number" id="height">
+        </label>
+        <label>Blood Pressure
+            <input type="text" id="bp">
+        </label>
+        <label>Sugar Level
+            <input type="text" id="sugar">
+        </label>
+        <label>Protein Intake (g/day)
+            <input type="number" id="protein">
+        </label>
+        <label>Water Intake (liters/day)
+            <input type="number" step="0.1" id="water">
+        </label>
+        <label>Sleep Hours
+            <input type="number" step="0.1" id="sleep">
+        </label>
+        <label>Walking Time (mins/day)
+            <input type="number" id="walk">
+        </label>
+        <label>Fruits per Day
+            <input type="number" id="fruits">
+        </label>
+        <label>Junk Food (times/week)
+            <input type="number" id="junk">
+        </label>
+    </form>
+
+    <div id="results">
+        <div class="result-item"><strong>BMI:</strong> <span id="bmi">--</span></div>
+        <div class="result-item"><strong>Fitness Status:</strong> <span id="status">--</span></div>
+        <div class="result-item"><strong>Health Score:</strong> <span id="healthScore">--</span>%</div>
+    </div>
+</div>
+
+<script>
+const inputs = document.querySelectorAll('#checkupForm input');
+const bmiEl = document.getElementById('bmi');
+const statusEl = document.getElementById('status');
+const scoreEl = document.getElementById('healthScore');
+
+function calculateHealthScore() {
+    const sleep = parseFloat(document.getElementById('sleep').value) || 0;
+    const water = parseFloat(document.getElementById('water').value) || 0;
+    const protein = parseFloat(document.getElementById('protein').value) || 0;
+    const fruits = parseFloat(document.getElementById('fruits').value) || 0;
+    const walk = parseFloat(document.getElementById('walk').value) || 0;
+    const junk = parseFloat(document.getElementById('junk').value) || 0;
+
+    // Normalize inputs to a score (max 10 each)
+    const sleepScore = Math.min(sleep/8*10,10);
+    const waterScore = Math.min(water/2*10,10);
+    const proteinScore = Math.min(protein/50*10,10);
+    const fruitsScore = Math.min(fruits/5*10,10);
+    const walkScore = Math.min(walk/60*10,10);
+    const junkScore = Math.max(0, 10 - junk*1.5); // less junk = better
+
+    // Total health score
+    const total = sleepScore + waterScore + proteinScore + fruitsScore + walkScore + junkScore;
+    const healthPercent = Math.round((total/60)*100);
+    scoreEl.textContent = healthPercent;
+
+    // Color based on score
+    if(healthPercent >= 80){
+        scoreEl.style.color = 'var(--alert-good)';
+    } else if(healthPercent >= 60){
+        scoreEl.style.color = 'var(--alert-warning)';
+    } else {
+        scoreEl.style.color = 'var(--alert-bad)';
+    }
+}
+
+function calculateBMI() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value);
+
+    if(weight && height){
+        const heightM = height / 100;
+        const bmi = weight / (heightM * heightM);
+        bmiEl.textContent = bmi.toFixed(1);
+
+        // Fitness status
+        let status = '';
+        let color = '';
+        if(bmi < 18.5){
+            status = 'Underweight';
+            color = 'var(--alert-warning)';
+        } else if(bmi < 25){
+            status = 'Normal';
+            color = 'var(--alert-good)';
+        } else if(bmi < 30){
+            status = 'Overweight';
+            color = 'var(--alert-warning)';
+        } else {
+            status = 'Obese';
+            color = 'var(--alert-bad)';
+        }
+        statusEl.textContent = status;
+        statusEl.style.color = color;
+    } else {
+        bmiEl.textContent = '--';
+        statusEl.textContent = '--';
+        statusEl.style.color = 'var(--text-main)';
+    }
+}
+
+function updateDashboard() {
+    calculateBMI();
+    calculateHealthScore();
+}
+
+inputs.forEach(input => {
+    input.addEventListener('input', updateDashboard);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History | Healsync+</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #e3f2fd, #fce4ec);
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .btn-group {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 10px 18px;
+            margin: 5px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            background: #1976d2;
+            color: white;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+    </style>
+</head>
+<body>
+
+<h2>History Page</h2>
+
+<div class="card">
+    {% for key, value in session_data.items() %}
+        <p><strong>{{ key }}:</strong> {{ value }}</p>
+    {% endfor %}
+</div>
+
+<div class="btn-group">
+    <a href="/step/5"><button>Back to the page</button></a>
+    <a href="/result"><button>Result details</button></a>
+</div>
+
+</body>
+</html>
