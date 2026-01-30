@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infostream Nexus | Admin Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050505;
+            --sidebar-bg: #0a0a0a;
+            --sidebar-width: 280px;
+            --accent-green: #00ff88;
+            --text-main: #ffffff;
+            --text-dim: #666666;
+            --card-bg: #0f0f0f;
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-green);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .brand-text h2 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: white;
+        }
+
+        .brand-text p {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .menu-section {
+            margin-bottom: 32px;
+        }
+
+        .menu-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 12px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: inset 4px 0 0 var(--accent-green);
+        }
+
+        .badge {
+            margin-left: auto;
+            background: var(--accent-green);
+            color: black;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .sign-out-btn {
+            margin-top: auto;
+            background: rgba(239, 68, 68, 0.05);
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(239, 68, 68, 0.1);
+            transition: all 0.2s;
+        }
+
+        .sign-out-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Activity Feed Styling */
+        .activity-feed {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 32px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.2s;
+            border-radius: 12px;
+        }
+
+        .activity-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(0, 255, 136, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-green);
+            font-size: 0.9rem;
+        }
+
+        .activity-info h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .activity-info p {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .activity-time {
+            margin-left: auto;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        /* Header / Top Bar */
+        .top-header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-deep);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .search-area {
+            position: relative;
+            width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px 12px 40px;
+            color: white;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-info {
+            text-align: right;
+        }
+
+        .admin-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: block;
+        }
+
+        .admin-role {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--accent-green);
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #ef4444;
+            /* Match red bot icon in image */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+        }
+
+        /* Access Point Configuration (Central UI) */
+        .access-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .verification-tag {
+            background: rgba(0, 255, 136, 0.05);
+            color: var(--accent-green);
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        .access-title {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 48px;
+            line-height: 1.1;
+        }
+
+        .access-title span {
+            color: var(--text-dim);
+        }
+
+        .config-grid {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 1000px;
+            justify-content: center;
+        }
+
+        .config-node {
+            flex: 1;
+            text-align: left;
+        }
+
+        .node-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+            margin-left: 4px;
+            display: block;
+        }
+
+        .node-select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px 20px;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            appearance: none;
+            outline: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+        }
+
+        .node-select:focus {
+            border-color: var(--text-dim);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .action-hub {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .hub-btn {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hub-btn:hover {
+            background: white;
+            color: black;
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .config-grid {
+                flex-wrap: wrap;
+            }
+
+            .config-node {
+                flex: 1 1 45%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+                /* Hide sidebar on mobile for now */
+            }
+        }
+
+        /* Flash Message Styles */
+        .flash-messages {
+            position: fixed;
+            top: 80px;
+            left: calc(var(--sidebar-width) + 40px);
+            right: 40px;
+            z-index: 200;
+            animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .flash-message {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .flash-message.success {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--accent-green);
+        }
+
+        .flash-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.75rem;
+            color: black;
+            font-weight: 700;
+        }
+
+        .flash-text {
+            flex: 1;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .flash-close {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .flash-close:hover {
+            color: var(--text-main);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="black" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M2 17L12 22L22 17" stroke="black" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M2 12L12 17L22 12" stroke="black" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h2>Infostream</h2>
+                <p>Nexus Intelligence</p>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <span class="menu-label">Platform</span>
+            <a href="/admin" class="menu-item">Overview</a>
+            <a href="#activity-log" class="menu-item">Activity Feed <span class="badge">LIVE</span></a>
+            <a href="/placement" class="menu-item">Placement</a>
+        </div>
+
+        <div class="menu-section">
+            <span class="menu-label">Institution</span>
+            <a href="#" class="menu-item">Campus Events</a>
+            <a href="#" class="menu-item">Residence</a>
+        </div>
+
+        <div class="menu-section">
+            <span class="menu-label">Management</span>
+            <a href="/post" class="menu-item">Create New</a>
+            <a href="#" class="menu-item">Insights</a>
+            <a href="#" class="menu-item">Preferences</a>
+        </div>
+
+        <a href="/logout" class="sign-out-btn">
+            Sign Out
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+        </a>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+        <!-- Flashed Messages Section -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-container" style="padding: 20px 40px 0;">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" style="
+                padding: 16px 24px;
+                border-radius: 12px;
+                background: {% if category == 'success' %}rgba(0, 255, 136, 0.1){% else %}rgba(239, 68, 68, 0.1){% endif %};
+                border: 1px solid {% if category == 'success' %}var(--accent-green){% else %}#ef4444{% endif %};
+                color: {% if category == 'success' %}var(--accent-green){% else %}#ef4444{% endif %};
+                font-size: 0.9rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                animation: slideDown 0.4s ease-out;
+            ">
+                <span class="alert-icon">{% if category == 'success' %}✅{% else %}⚠️{% endif %}</span>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        <style>
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-10px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+        </style>
+        {% endif %}
+        {% endwith %}
+
+        <header class="top-header">
+            <div class="search-area">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search Institutional logs...">
+            </div>
+
+            <div class="admin-profile">
+                <div class="admin-info">
+                    <span class="admin-name">System Administrator</span>
+                    <span class="admin-role">Administrator</span>
+                </div>
+                <div class="avatar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 5C13.66 5 15 6.34 15 8C15 9.66 13.66 11 12 11C10.34 11 9 9.66 9 8C9 6.34 10.34 5 12 5ZM12 19.2C9.5 19.2 7.29 17.92 6 15.98C6.03 13.99 10 12.9 12 12.9C13.99 12.9 17.97 13.99 18 15.98C16.71 17.92 14.5 19.2 12 19.2Z" />
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+                <div class="flash-icon">✓</div>
+                <div class="flash-text">{{ message }}</div>
+                <button class="flash-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <section class="access-container">
+            <div class="verification-tag">♦ Institutional Verification</div>
+
+            <h1 class="access-title">Define <span>Access Point</span></h1>
+
+            <form action="/admin/details" method="POST"
+                style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <div class="config-grid">
+                    <div class="config-node">
+                        <span class="node-label">Department</span>
+                        <select name="dept" class="node-select" required>
+                            <option value="" selected disabled>Select Dept</option>
+                            <option value="CSE">Computer Science</option>
+                            <option value="ME">Mechanical Engineering</option>
+                            <option value="EE">Electrical Engineering</option>
+                            <option value="Civil">Civil Engineering</option>
+                        </select>
+                    </div>
+
+                    <div class="config-node">
+                        <span class="node-label">Year Node</span>
+                        <select name="year" class="node-select" required>
+                            <option value="" selected disabled>Select Year</option>
+                            <option value="1st Year">First Year</option>
+                            <option value="2nd Year">Second Year</option>
+                            <option value="3rd Year">Third Year</option>
+                            <option value="4th Year">Fourth Year</option>
+                        </select>
+                    </div>
+
+                    <div class="config-node">
+                        <span class="node-label">H.O.D Context</span>
+                        <select name="hod" class="node-select" required>
+                            <option value="" selected disabled>Select HOD</option>
+                            <option value="Dr. Smith (CSE)">Dr. Smith (CSE)</option>
+                            <option value="Prof. Miller (ME)">Prof. Miller (ME)</option>
+                            <option value="Dr. Brown (EE)">Dr. Brown (EE)</option>
+                        </select>
+                    </div>
+
+                    <div class="config-node">
+                        <span class="node-label">Class Advisor</span>
+                        <select name="advisor" class="node-select" required>
+                            <option value="" selected disabled>Select Advisor</option>
+                            <option value="Mr. Anderson">Mr. Anderson</option>
+                            <option value="Ms. Williams">Ms. Williams</option>
+                            <option value="Mr. Davis">Mr. Davis</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="action-hub">
+                    <button type="submit" class="hub-btn">Establish Hub Connection</button>
+                </div>
+            </form>
+
+            <!-- Activity Feed Section -->
+            <div class="activity-feed" id="activity-log">
+                <div class="activity-header">
+                    <h3 style="font-size: 1rem;">Admin Activity Log</h3>
+                    <span class="badge"
+                        style="background: var(--accent-green); color: black; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700;">LIVE
+                        FEED</span>
+                </div>
+
+                {% for act in activities %}
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        {% if "Post" in act.action %}📢{% elif "Placement" in act.action %}💼{% else %}⚡{% endif %}
+                    </div>
+                    <div class="activity-info">
+                        <h4>{{ act.action }}</h4>
+                        <p>{{ act.details }} <span style="color: var(--accent-blue); opacity: 0.8; margin-left: 8px;">by
+                                {{ act.admin_user }}</span></p>
+                    </div>
+                    <div class="activity-time">{{ act.timestamp }}</div>
+                </div>
+                {% endfor %}
+
+                {% if not activities %}
+                <div style="text-align: center; padding: 40px; color: var(--text-dim);">
+                    <p>No recent administrative activities detected.</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Interactive highlight for menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        // Auto-hide flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', () => {
+            const flashMessages = document.querySelector('.flash-messages');
+            if (flashMessages) {
+                setTimeout(() => {
+                    flashMessages.style.opacity = '0';
+                    flashMessages.style.transform = 'translateY(-20px)';
+                    flashMessages.style.transition = 'all 0.3s ease';
+                    setTimeout(() => {
+                        flashMessages.remove();
+                    }, 300);
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+
+</html>

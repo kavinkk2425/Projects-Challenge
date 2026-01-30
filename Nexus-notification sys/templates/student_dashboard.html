@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Student Workspace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050505;
+            --accent-green: #00ff88;
+            --accent-blue: #6366f1;
+            --accent-red: #ef4444;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --card-bg: #0f1117;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-green);
+            border-radius: 8px;
+        }
+
+        .brand-text h2 {
+            font-size: 1.1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-left: 32px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .btn-logout {
+            color: var(--accent-red) !important;
+        }
+
+        .main-container {
+            padding: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .welcome-section {
+            margin-bottom: 48px;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .welcome-section p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        .notice-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+            transition: transform 0.2s;
+        }
+
+        .notice-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .notice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .notice-meta {
+            display: flex;
+            gap: 12px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-cat {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .badge-urgency.Critical {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+        }
+
+        .badge-urgency.High {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .badge-urgency.Medium {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent-green);
+        }
+
+        .notice-time {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .notice-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+
+        .notice-content p {
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            white-space: pre-line;
+        }
+
+        .sidebar-widget {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .widget-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+        }
+
+        .event-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .event-date {
+            width: 45px;
+            text-align: center;
+        }
+
+        .event-date .day {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .event-date .month {
+            font-size: 0.65rem;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .event-info h4 {
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .event-info p {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px;
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="brand">
+            <div class="brand-icon"></div>
+            <div class="brand-text">
+                <h2>Nexus Student</h2>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="#">Academic</a>
+            <a href="#">Placement</a>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="welcome-section">
+            <h1>Workspace Feed</h1>
+            <p>Access your targeted institutional notifications and live updates.</p>
+        </div>
+
+        <div class="grid-layout">
+            <section class="feed-column">
+                <h2 class="section-title">
+                    <div class="pulse"></div> Live Broadcasts
+                </h2>
+
+                {% for notice in notices %}
+                <div class="notice-card">
+                    <div class="notice-header">
+                        <div class="notice-meta">
+                            <span class="badge badge-cat">{{ notice.category }}</span>
+                            <span class="badge badge-urgency {{ notice.urgency }}">{{ notice.urgency }}</span>
+                        </div>
+                        <span class="notice-time">{{ notice.timestamp }}</span>
+                    </div>
+                    <div class="notice-content">
+                        <h3>{{ notice.title }}</h3>
+                        <p>{{ notice.message }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if not notices %}
+                <div class="notice-card empty-state">
+                    <p>No notifications available for your profile at this time.</p>
+                </div>
+                {% endif %}
+            </section>
+
+            <aside class="sidebar-column">
+                {% if admin_details %}
+                <div class="sidebar-widget"
+                    style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%); border: 1px solid rgba(99, 102, 241, 0.2);">
+                    <h3 class="widget-title">Institutional Details</h3>
+                    <div style="margin-bottom: 16px;">
+                        <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">Department</p>
+                        <p style="font-size: 0.9rem; color: var(--text-main); font-weight: 600;">{{ admin_details.department }}</p>
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">Year</p>
+                        <p style="font-size: 0.9rem; color: var(--text-main); font-weight: 600;">{{ admin_details.year_node }}</p>
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">H.O.D</p>
+                        <p style="font-size: 0.9rem; color: var(--text-main); font-weight: 600;">{{ admin_details.hod_context }}</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">Class Advisor</p>
+                        <p style="font-size: 0.9rem; color: var(--text-main); font-weight: 600;">{{ admin_details.class_advisor }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Calendar Check</h3>
+                    <div class="event-item">
+                        <div class="event-date"><span class="day">30</span><span class="month">Jan</span></div>
+                        <div class="event-info">
+                            <h4>Internal Assessments</h4>
+                            <p>Main Block • 09:00 AM</p>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date"><span class="day">02</span><span class="month">Feb</span></div>
+                        <div class="event-info">
+                            <h4>Tech Symposium</h4>
+                            <p>Auditorium • 10:30 AM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget"
+                    style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);">
+                    <h3 class="widget-title">Quick Tip</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-dim); line-height: 1.5;">Check the <b>Placement
+                            Hub</b> link in the header regularly for the latest hiring drive updates and resume
+                        submission deadlines.</p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Broadcast Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050505;
+            --sidebar-bg: #0a0a0a;
+            --sidebar-width: 280px;
+            --accent-green: #00ff88;
+            --accent-blue: #6366f1;
+            --text-main: #ffffff;
+            --text-dim: #666666;
+            --card-bg: #12141c;
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar (Matching Dashboard) */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-green);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-text h2 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: white;
+        }
+
+        .brand-text p {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .menu-section {
+            margin-bottom: 32px;
+        }
+
+        .menu-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 12px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: inset 4px 0 0 var(--accent-green);
+        }
+
+        /* Main Area */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .top-header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .broadcast-container {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .broadcast-card {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+        }
+
+        .card-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .card-title p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .selected-category-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .form-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+        }
+
+        /* Left Side: Inputs */
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 20px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .form-textarea {
+            height: 180px;
+            resize: none;
+        }
+
+        /* Right Side: Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .cat-tile {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-tile:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .cat-tile.active {
+            border-color: white;
+            background: white;
+            color: black;
+        }
+
+        .cat-icon {
+            font-size: 1.25rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .cat-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .selector-section {
+            margin-bottom: 32px;
+        }
+
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-dim);
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chip.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .chip.active.urgency {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+        }
+
+        .chip.active.year {
+            background: #00ff88;
+            color: black;
+            border-color: #00ff88;
+        }
+
+        .chip.active.dept {
+            background: #a855f7;
+            color: white;
+            border-color: #a855f7;
+        }
+
+        .broadcast-btn {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .broadcast-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⭐</div>
+            <div class="brand-text">
+                <h2>Infostream</h2>
+                <p>Nexus Intelligence</p>
+            </div>
+        </div>
+        <div class="menu-section">
+            <span class="menu-label">Platform</span>
+            <a href="/admin" class="menu-item">Overview</a>
+            <a href="#" class="menu-item">Activity Feed</a>
+            <a href="/placement" class="menu-item">Placement</a>
+        </div>
+        <div class="menu-section">
+            <span class="menu-label">Management</span>
+            <a href="/post" class="menu-item active">Create New</a>
+            <a href="#" class="menu-item">Insights</a>
+        </div>
+        <a href="/logout" class="menu-item" style="margin-top:auto; color:#ef4444;">Sign Out</a>
+    </aside>
+
+    <main class="main-content">
+        <!-- Flashed Messages Section -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-container" style="padding: 20px 40px 0;">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" style="
+                padding: 16px 24px;
+                border-radius: 12px;
+                background: {% if category == 'success' %}rgba(0, 255, 136, 0.1){% else %}rgba(239, 68, 68, 0.1){% endif %};
+                border: 1px solid {% if category == 'success' %}var(--accent-green){% else %}#ef4444{% endif %};
+                color: {% if category == 'success' %}var(--accent-green){% else %}#ef4444{% endif %};
+                font-size: 0.9rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                animation: slideDown 0.4s ease-out;
+            ">
+                <span class="alert-icon">{% if category == 'success' %}✅{% else %}⚠️{% endif %}</span>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        <style>
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-10px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+        </style>
+        {% endif %}
+        {% endwith %}
+
+        <header class="top-header">
+            <h2 style="font-size: 1rem;">Broadcast Center</h2>
+            <div class="admin-profile" style="display:flex; gap:12px; align-items:center;">
+                <span style="font-size:0.8rem; font-weight:600;">System Administrator</span>
+                <div style="width:32px; height:32px; border-radius:8px; background:#ef4444;"></div>
+            </div>
+        </header>
+
+        <div class="broadcast-container">
+            <div class="broadcast-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h1>Broadcast Center</h1>
+                        <p>Targeted institutional communication.</p>
+                    </div>
+                </div>
+
+                <form action="/post" method="POST">
+                    <div class="form-layout">
+                        <!-- Left Side -->
+                        <div class="form-inputs">
+                            <div class="input-group">
+                                <span class="input-label">Notice Title</span>
+                                <input type="text" name="title" class="form-input"
+                                    placeholder="e.g. Annual Sports Meet 2024" required>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-label">Content</span>
+                                <textarea name="message" class="form-textarea"
+                                    placeholder="Enter the full message details here..." required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Right Side -->
+                        <div class="form-options">
+                            <span class="input-label">Select Category</span>
+                            <div class="options-grid" id="category-selector">
+                                <label class="cat-tile active"><input type="radio" name="category"
+                                        value="Academic"><span class="cat-icon">🎓</span><span
+                                        class="cat-name">Academic</span></label>
+                                <label class="cat-tile"><input type="radio" name="category" value="Administrative"
+                                        checked><span class="cat-icon">🏛️</span><span
+                                        class="cat-name">Administrative</span></label>
+                                <label class="cat-tile"><input type="radio" name="category" value="Placement"><span
+                                        class="cat-icon">💼</span><span class="cat-name">Placement</span></label>
+                                <label class="cat-tile"><input type="radio" name="category" value="Exam"><span
+                                        class="cat-icon">📝</span><span class="cat-name">Exam</span></label>
+                                <label class="cat-tile"><input type="radio" name="category" value="Events"><span
+                                        class="cat-icon">📅</span><span class="cat-name">Events</span></label>
+                                <label class="cat-tile"><input type="radio" name="category" value="Emergency"><span
+                                        class="cat-icon">🚨</span><span class="cat-name">Emergency</span></label>
+                            </div>
+
+                            <div class="selector-section">
+                                <span class="input-label">Urgency</span>
+                                <div class="chip-group">
+                                    <label class="chip"><input type="radio" name="urgency"
+                                            value="Critical">Critical</label>
+                                    <label class="chip"><input type="radio" name="urgency" value="High">High</label>
+                                    <label class="chip active urgency"><input type="radio" name="urgency" value="Medium"
+                                            checked>Medium</label>
+                                    <label class="chip"><input type="radio" name="urgency" value="Low">Low</label>
+                                </div>
+                            </div>
+
+                            <div class="selector-section">
+                                <span class="input-label">Target Years</span>
+                                <div class="chip-group">
+                                    <label class="chip"><input type="checkbox" name="years" value="1st Year">1st
+                                        Year</label>
+                                    <label class="chip"><input type="checkbox" name="years" value="2nd Year">2nd
+                                        Year</label>
+                                    <label class="chip"><input type="checkbox" name="years" value="3rd Year">3rd
+                                        Year</label>
+                                    <label class="chip active year"><input type="checkbox" name="years"
+                                            value="All Years" checked>All Years</label>
+                                </div>
+                            </div>
+
+                            <div class="selector-section">
+                                <span class="input-label">Target Departments</span>
+                                <div class="chip-group">
+                                    <label class="chip"><input type="checkbox" name="depts" value="CSE">CSE</label>
+                                    <label class="chip"><input type="checkbox" name="depts" value="ME">ME</label>
+                                    <label class="chip"><input type="checkbox" name="depts" value="EE">EE</label>
+                                    <label class="chip active dept"><input type="checkbox" name="depts"
+                                            value="All Departments" checked>All Departments</label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="broadcast-btn">📤 Broadcast to Campus</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /**
+         * --- BROADCAST CENTER INTERACTIVITY ---
+         * We use a 'change' event listener on the form to react to any input modifications.
+         * This ensures that visual styles (active classes) always match the underlying 
+         * form state, which is what gets submitted to the database.
+         */
+        const form = document.querySelector('form');
+
+        form.addEventListener('change', (e) => {
+            const input = e.target;
+
+            // 1. Handle Category Tiles (Radio)
+            if (input.name === 'category') {
+                document.querySelectorAll('.cat-tile').forEach(tile => {
+                    const tileInput = tile.querySelector('input');
+                    if (tileInput.checked) tile.classList.add('active');
+                    else tile.classList.remove('active');
+                });
+            }
+
+            // 2. Handle Urgency Chips (Radio)
+            else if (input.name === 'urgency') {
+                const group = input.closest('.chip-group');
+                group.querySelectorAll('.chip').forEach(chip => {
+                    const chipInput = chip.querySelector('input');
+                    chip.classList.remove('active', 'urgency');
+                    if (chipInput.checked) chip.classList.add('active', 'urgency');
+                });
+            }
+
+            // 3. Handle Target Audience (Checkboxes)
+            else if (input.name === 'years' || input.name === 'depts') {
+                const chip = input.closest('.chip');
+                if (input.checked) {
+                    chip.classList.add('active');
+                    if (input.name === 'years') chip.classList.add('year');
+                    if (input.name === 'depts') chip.classList.add('dept');
+                } else {
+                    chip.classList.remove('active', 'year', 'dept');
+                }
+            }
+        });
+
+        /**
+         * Initialization: Ensure the initial 'checked' state from HTML 
+         * is reflected visually upon page load.
+         */
+        window.addEventListener('load', () => {
+            // 1. Sync visual state for pre-checked items
+            document.querySelectorAll('input:checked').forEach(input => {
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+
+            // 2. Pre-select items from URL parameters (if any)
+            // This connects the Admin Dashboard 'Access Point' to the Broadcast Center.
+            const urlParams = new URLSearchParams(window.location.search);
+            const preDept = urlParams.get('dept');
+            const preYear = urlParams.get('year');
+
+            if (preDept) {
+                const deptInput = document.querySelector(`input[name="depts"][value="${preDept}"]`);
+                if (deptInput) {
+                    // Uncheck 'All Departments' if a specific one is selected
+                    document.querySelector('input[name="depts"][value="All Departments"]').checked = false;
+                    document.querySelector('input[name="depts"][value="All Departments"]').closest('.chip').classList.remove('active', 'dept');
+
+                    deptInput.checked = true;
+                    deptInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+
+            if (preYear) {
+                const yearInput = document.querySelector(`input[name="years"][value="${preYear}"]`);
+                if (yearInput) {
+                    // Uncheck 'All Years' if a specific one is selected
+                    document.querySelector('input[name="years"][value="All Years"]').checked = false;
+                    document.querySelector('input[name="years"][value="All Years"]').closest('.chip').classList.remove('active', 'year');
+
+                    yearInput.checked = true;
+                    yearInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
