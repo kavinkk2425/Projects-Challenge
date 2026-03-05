@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Holi Express – Festival of Colors</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Celebrate Holi with vibrant colors, animations, and festive wishes!">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Canvas for particle effects -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Animated background blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+
+    <!-- Music Player - Ambikapathy.mp3 -->
+    <audio id="bgMusic" autoplay loop preload="auto" playsinline>
+        <source src="music/Ambikapathy.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Autoplay welcome overlay (disappears on first interaction, triggers music) -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-box">
+            <div class="welcome-emoji">✨🥳🎉</div>
+            <h2 class="welcome-title">Happy Holi!</h2>
+            <p class="welcome-sub">Tap anywhere to enter the festival</p>
+            <div class="welcome-pulse"></div>
+        </div>
+    </div>
+
+    <!-- Floating Music Control -->
+    <div class="music-widget" id="musicWidget">
+        <button class="music-btn" id="musicToggleBtn" onclick="toggleMusic()" title="Toggle Background Music">
+            <i data-lucide="music" id="musicIcon"></i>
+        </button>
+        <div class="music-label" id="musicLabel">Add Music</div>
+        <!-- Hidden file input -->
+        <input type="file" id="musicFileInput" accept="audio/*" style="display:none" onchange="loadMusicFile(event)">
+    </div>
+
+    <!-- Color Trail Cursor -->
+    <div class="cursor-trail" id="cursorTrail"></div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="#home" class="nav-item active" data-tab="home" id="nav-home">
+            <div class="nav-icon-wrap">
+                <i data-lucide="home"></i>
+            </div>
+            <span>Home</span>
+        </a>
+        <a href="#colors" class="nav-item" data-tab="colors" id="nav-colors">
+            <div class="nav-icon-wrap">
+                <i data-lucide="palette"></i>
+            </div>
+            <span>Colors</span>
+        </a>
+        <a href="#game" class="nav-item" data-tab="game" id="nav-game">
+            <div class="nav-icon-wrap">
+                <i data-lucide="zap"></i>
+            </div>
+            <span>Burst</span>
+        </a>
+        <a href="#wish" class="nav-item" data-tab="wish" id="nav-wish">
+            <div class="nav-icon-wrap">
+                <i data-lucide="wand-2"></i>
+            </div>
+            <span>Wish</span>
+        </a>
+        <a href="#about" class="nav-item" data-tab="about" id="nav-about">
+            <div class="nav-icon-wrap">
+                <i data-lucide="info"></i>
+            </div>
+            <span>About</span>
+        </a>
+    </nav>
+
+    <div class="app-container" id="appContainer">
+
+        <!-- ===== HOME SECTION ===== -->
+        <section id="home" class="visible">
+
+            <!-- Floating emoji ring -->
+            <div class="emoji-ring">
+                <span class="emoji-orbit" style="--i:0">🎨</span>
+                <span class="emoji-orbit" style="--i:1">🌈</span>
+                <span class="emoji-orbit" style="--i:2">🎉</span>
+                <span class="emoji-orbit" style="--i:3">✨</span>
+                <span class="emoji-orbit" style="--i:4">💫</span>
+                <span class="emoji-orbit" style="--i:5">🎊</span>
+            </div>
+
+            <!-- Main glowing title -->
+            <div class="hero-title-wrap">
+                <div class="hero-sparkle-row">
+                    <span class="sparkle-star">✦</span>
+                    <span class="sparkle-star delay-1">✦</span>
+                    <span class="sparkle-star delay-2">✦</span>
+                </div>
+                <h1 class="hero-title mega-title">
+                    <span class="letter" style="--li:0">H</span><span class="letter" style="--li:1">a</span><span
+                        class="letter" style="--li:2">p</span><span class="letter" style="--li:3">p</span><span
+                        class="letter" style="--li:4">y</span>
+                    <span class="letter space"> </span>
+                    <span class="letter" style="--li:5">H</span><span class="letter" style="--li:6">o</span><span
+                        class="letter" style="--li:7">l</span><span class="letter" style="--li:8">i</span><span
+                        class="letter" style="--li:9">!</span>
+                </h1>
+                <div class="hero-sparkle-row bottom-sparkle">
+                    <span class="sparkle-star delay-1">✦</span>
+                    <span class="sparkle-star">✦</span>
+                    <span class="sparkle-star delay-2">✦</span>
+                </div>
+            </div>
+
+            <!-- Glowing ring subtitle -->
+            <div class="subtitle-ring">
+                <p class="hero-subtitle">Tap anywhere to splash vibrant colors · Move your mouse to paint the world</p>
+            </div>
+
+            <div class="hero-badges">
+                <span class="badge">✨ Festive</span>
+                <span class="badge">🎉 Colorful</span>
+                <span class="badge">🌈 Magical</span>
+            </div>
+
+            <button class="primary-btn ripple-btn" onclick="scrollToSection('colors')" id="getStartedBtn">
+                <span>Get Started</span>
+                <i data-lucide="arrow-right"></i>
+            </button>
+
+            <p class="hint-text pulse-text">🎭 Tap the screen to burst colors!</p>
+        </section>
+
+        <!-- ===== COLORS SECTION ===== -->
+        <section id="colors">
+            <div class="glass-card tilt-card" id="colorCard">
+                <div class="card-glow"></div>
+                <i data-lucide="palette" class="card-icon" style="color: var(--pink)"></i>
+                <h2>Pick Your Color</h2>
+                <p class="card-subtitle">Your Holi palette awaits</p>
+
+                <div class="color-swatch-container">
+                    <div class="swatch active" style="background:#ff006e" data-color="#ff006e" data-name="Vibrant Pink">
+                    </div>
+                    <div class="swatch" style="background:#ffbe0b" data-color="#ffbe0b" data-name="Sunshine Yellow">
+                    </div>
+                    <div class="swatch" style="background:#3a86ff" data-color="#3a86ff" data-name="Electric Blue"></div>
+                    <div class="swatch" style="background:#06ffa5" data-color="#06ffa5" data-name="Neon Green"></div>
+                    <div class="swatch" style="background:#8338ec" data-color="#8338ec" data-name="Royal Purple"></div>
+                    <div class="swatch" style="background:#fb5607" data-color="#fb5607" data-name="Festival Orange">
+                    </div>
+                    <div class="swatch rainbow-swatch" data-color="rainbow" data-name="Rainbow Burst">🌈</div>
+                </div>
+
+                <p id="activeColorText" class="active-color-label">Vibrant Pink</p>
+
+                <button class="primary-btn ripple-btn mt-4" onclick="fireCurrentColor()" id="burstBtn">
+                    <span>🎇 Fire Burst!</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== BURST/GAME SECTION ===== -->
+        <section id="game">
+            <div class="glass-card tilt-card">
+                <div class="card-glow"></div>
+                <i data-lucide="zap" class="card-icon" style="color: var(--yellow)"></i>
+                <h2>Color Cannon 🎯</h2>
+                <p class="card-subtitle">Tap the target to score!</p>
+
+                <div class="target-zone" id="targetZone">
+                    <div class="target" id="gameTarget">🎯</div>
+                    <div class="score-display">Score: <span id="scoreDisplay">0</span></div>
+                    <button class="primary-btn ripple-btn mt-4" onclick="startGame()" id="startGameBtn">
+                        <span>▶ Start Game</span>
+                    </button>
+                    <p class="target-hint" id="targetHint">Hit the target as fast as you can!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== WISH SECTION ===== -->
+        <section id="wish">
+            <div class="glass-card tilt-card">
+                <div class="card-glow"></div>
+                <i data-lucide="send" class="card-icon" style="color: var(--blue)"></i>
+                <h2>Send a Wish 💌</h2>
+                <p class="card-subtitle">Create a personalized Holi message</p>
+
+                <input type="text" id="nameInput" class="input-field" placeholder="Enter your name..." maxlength="30">
+                <button class="primary-btn ripple-btn" onclick="generateWish()" id="generateWishBtn">
+                    <span>✨ Generate Magic</span>
+                </button>
+
+                <div id="wishResult" class="wish-result hidden">
+                    <div class="wish-bubble">
+                        <p id="wishText"></p>
+                        <button class="share-btn" onclick="copyWish()" id="copyWishBtn">📋 Copy</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ABOUT SECTION ===== -->
+        <section id="about">
+            <div class="glass-card tilt-card text-left">
+                <div class="card-glow"></div>
+                <h2 style="text-align:center; margin-bottom:20px;">🌕 The Festival of Colors</h2>
+
+                <div class="about-item">
+                    <span class="about-emoji">🌸</span>
+                    <p>Holi marks the <strong>arrival of spring</strong> and the victory of good over evil.</p>
+                </div>
+                <div class="about-item">
+                    <span class="about-emoji">💫</span>
+                    <p>It's a time for <strong>laughter, forgiveness</strong>, and repairing relationships.</p>
+                </div>
+                <div class="about-item">
+                    <span class="about-emoji">🎶</span>
+                    <p>People dance, sing, and drench each other with <strong>vibrant colors</strong>.</p>
+                </div>
+
+                <!-- Music Upload -->
+                <div class="music-upload-card" id="musicUploadCard">
+                    <div class="music-upload-icon">🎵</div>
+                    <p class="music-upload-title">Background Music</p>
+                    <p class="music-upload-hint">Add your own Holi music to enjoy!</p>
+                    <button class="primary-btn ripple-btn" onclick="document.getElementById('musicFileInput').click()"
+                        id="uploadMusicBtn">
+                        <span>🎧 Choose Music File</span>
+                    </button>
+                    <p id="musicFileName" class="music-file-name">No file selected</p>
+                </div>
+
+                <div class="heart-row">
+                    <i data-lucide="heart" style="color:var(--pink); width:18px; height:18px;"></i>
+                    <span>Spread Love and Happiness</span>
+                </div>
+            </div>
+
+            <footer class="footer">
+                © 2026 Holi Express • Festival Edition
+            </footer>
+        </section>
+    </div>
+
+    <!-- Ripple container -->
+    <div id="rippleContainer"></div>
+
+    <!-- Toast notifications -->
+    <div id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
