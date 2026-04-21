@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLAMES — Cosmic Connection Reader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Background canvases -->
+  <canvas id="starfield"></canvas>
+  <canvas id="nebula"></canvas>
+
+  <!-- ==================== SCREEN 1 : INTRO ==================== -->
+  <div class="screen active" id="screen-intro">
+    <div class="orbit-container">
+      <div class="orbit orbit1"><div class="ring-dot"></div></div>
+      <div class="orbit orbit2"></div>
+      <div class="orbit orbit3"></div>
+    </div>
+    <div class="cosmos-title">
+      <span class="title-top">Cosmic Connection Reader</span>
+      <div class="main-title">FLAMES</div>
+      <div class="subtitle-row">
+        <span class="sub-line"></span>
+        <span class="subtitle-text">What does the universe say about you two?</span>
+        <span class="sub-line r"></span>
+      </div>
+      <button class="begin-btn" onclick="goTo('input')">Begin Reading ✦</button>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 2 : INPUT ==================== -->
+  <div class="screen" id="screen-input">
+    <div class="screen-header">
+      <span class="screen-label">Step 01 — Identity</span>
+      <h2 class="screen-title">Enter the Two Souls</h2>
+    </div>
+
+    <div class="glass-card">
+
+      <div class="name-field">
+        <div class="field-label"><span class="dot"></span> Your Name</div>
+        <input
+          type="text"
+          id="name1"
+          class="name-input"
+          placeholder="Enter your name…"
+          maxlength="50"
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter') calculate()"
+        >
+      </div>
+
+      <div class="or-divider">
+        <span></span>
+        <em>and</em>
+        <span></span>
+      </div>
+
+      <div class="name-field">
+        <div class="field-label"><span class="dot"></span> Their Name</div>
+        <input
+          type="text"
+          id="name2"
+          class="name-input"
+          placeholder="Enter their name…"
+          maxlength="50"
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter') calculate()"
+        >
+      </div>
+
+      <div class="error-strip" id="errStrip">Please enter both names to reveal the flames.</div>
+
+      <button class="cta-btn" onclick="calculate()">✦ Read the Cosmic Flames ✦</button>
+    </div>
+
+    <a class="back-link" onclick="goTo('intro')">← Back</a>
+  </div>
+
+  <!-- ==================== SCREEN 3 : LOADING ==================== -->
+  <div class="screen" id="screen-loading">
+
+    <div class="oracle-container">
+      <div class="oracle-ring ring1"><div class="ring-dot"></div></div>
+      <div class="oracle-ring ring2"><div class="ring-dot"></div></div>
+      <div class="oracle-ring ring3"><div class="ring-dot"></div></div>
+      <div class="oracle-ring ring4"></div>
+      <div class="oracle-orb">
+        <span class="orb-inner" id="orbLabel">FLAMES</span>
+      </div>
+    </div>
+
+    <div class="loading-msg" id="loadingMsg">Scanning the cosmos…</div>
+    <div class="loading-sub" id="loadingSub">Predicting your connection</div>
+
+    <div class="constellation" id="constell">
+      <div class="c-star" id="cst0"></div>
+      <div class="c-line" id="cln0"></div>
+      <div class="c-star" id="cst1"></div>
+      <div class="c-line" id="cln1"></div>
+      <div class="c-star" id="cst2"></div>
+      <div class="c-line" id="cln2"></div>
+      <div class="c-star" id="cst3"></div>
+      <div class="c-line" id="cln3"></div>
+      <div class="c-star" id="cst4"></div>
+      <div class="c-line" id="cln4"></div>
+      <div class="c-star" id="cst5"></div>
+    </div>
+
+    <div class="flames-scan" id="flamesScan">
+      <div class="scan-letter" data-l="F">F</div>
+      <div class="scan-letter" data-l="L">L</div>
+      <div class="scan-letter" data-l="A">A</div>
+      <div class="scan-letter" data-l="M">M</div>
+      <div class="scan-letter" data-l="E">E</div>
+      <div class="scan-letter" data-l="S">S</div>
+    </div>
+
+  </div>
+
+  <!-- ==================== SCREEN 4 : RESULT ==================== -->
+  <div class="screen" id="screen-result">
+
+    <div class="result-header">
+      <div class="result-names" id="resultNames"></div>
+    </div>
+
+    <div class="result-hero">
+      <span class="result-emoji-display" id="resEmoji"></span>
+      <span class="result-flame-word"    id="resWord"></span>
+      <p   class="result-desc-text"      id="resDesc"></p>
+    </div>
+
+    <div class="compat-section">
+      <div class="section-title">Compatibility Analysis</div>
+      <div id="compatBars"></div>
+    </div>
+
+    <div class="flames-grid-section">
+      <div class="section-title">FLAMES Breakdown</div>
+      <div class="flames-result-grid" id="flamesGrid"></div>
+    </div>
+
+    <div class="calc-section">
+      <div class="calc-toggle" onclick="toggleCalc()">
+        <span class="calc-toggle-label">How it was calculated</span>
+        <div class="calc-toggle-icon" id="calcIcon">▾</div>
+      </div>
+      <div class="calc-body" id="calcBody"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="action-btn action-primary" onclick="shareResult()">✦ Share Result</button>
+      <button class="action-btn action-ghost"   onclick="goTo('input')">↺ Try Again</button>
+    </div>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toaster">Copied to clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

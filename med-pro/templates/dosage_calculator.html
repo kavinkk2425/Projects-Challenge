@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dosage Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dosage.css') }}">
+</head>
+
+<body>
+
+<div class="glass-panel">
+    <h1>Dosage Calculator</h1>
+    <p class="subtitle">Weight & Age Based Medical Dosage</p>
+
+    <form method="POST">
+
+        <div class="row">
+            <label>Weight (kg)</label>
+            <input type="number" name="weight" step="0.1" required>
+        </div>
+
+        <div class="row">
+            <label>Age (years)</label>
+            <input type="number" name="age" required>
+        </div>
+
+        <div class="row">
+            <label>Medicine</label>
+            <select name="medicine" required>
+        <option value="">-- Select Medicine --</option>
+
+        <option value="paracetamol">Paracetamol</option>
+        <option value="acetaminophen">Acetaminophen</option>
+        <option value="ibuprofen">Ibuprofen</option>
+        <option value="amoxicillin">Amoxicillin</option>
+        <option value="azithromycin">Azithromycin</option>
+        <option value="diphenhydramine">Diphenhydramine</option>
+        <option value="loratadine">Loratadine</option>
+        <option value="chlorpheniramine">Chlorpheniramine</option>
+        <option value="hydroxyzine">Hydroxyzine</option>
+
+        <option value="prednisolone">Prednisolone</option>
+        <option value="dexamethasone">Dexamethasone</option>
+        <option value="betamethasone">Betamethasone</option>
+
+        <option value="omeprazole">Omeprazole</option>
+        <option value="lansoprazole">Lansoprazole</option>
+        <option value="ranitidine">Ranitidine</option>
+
+        <option value="celecoxib">Celecoxib</option>
+        <option value="aspirin">Aspirin</option>
+
+        <option value="furosemide">Furosemide</option>
+
+        <option value="levetiracetam">Levetiracetam</option>
+        <option value="phenytoin">Phenytoin</option>
+        <option value="valproate">Valproate</option>
+        <option value="carbamazepine">Carbamazepine</option>
+        <option value="phenobarbital">Phenobarbital</option>
+
+        <option value="diazepam">Diazepam</option>
+        <option value="lorazepam">Lorazepam</option>
+        <option value="midazolam">Midazolam</option>
+
+        <option value="morphine">Morphine</option>
+        <option value="ketamine">Ketamine</option>
+
+        <option value="ondansetron">Ondansetron</option>
+
+        <option value="albendazole">Albendazole</option>
+
+        <option value="salbutamol">Salbutamol</option>
+
+        <option value="fluconazole">Fluconazole</option>
+
+        <option value="metformin">Metformin</option>
+
+        <option value="rifampicin">Rifampicin</option>
+        <option value="isoniazid">Isoniazid</option>
+        <option value="pyrazinamide">Pyrazinamide</option>
+        <option value="ethambutol">Ethambutol</option>
+    </select>
+        </div>
+
+        <button type="submit">Calculate Dosage</button>
+
+    </form>
+
+</div>
+
+</body>
+</html> 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Calculator</h2>
+
+    <input type="text" id="calcDisplay" readonly class="calc-display">
+
+    <div class="calc-grid">
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button onclick="press('/')">÷</button>
+
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button onclick="press('*')">×</button>
+
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button onclick="press('-')">−</button>
+
+        <button onclick="press('0')">0</button>
+        <button onclick="clearCalc()">C</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="press('+')">+</button>
+    </div>
+</div>
+
+<script>
+let exp = "";
+function press(val){ exp += val; document.getElementById("calcDisplay").value = exp; }
+function calculate(){ exp = eval(exp).toString(); document.getElementById("calcDisplay").value = exp; }
+function clearCalc(){ exp=""; document.getElementById("calcDisplay").value=""; }
+</script>
+
+</body>
+</html>

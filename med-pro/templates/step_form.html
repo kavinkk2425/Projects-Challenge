@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healsync+</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, #000000, #005b29);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: rgb(255, 254, 254);
+            animation: fadeInPage 0.8s ease-in-out;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(90deg, #73ff5e, #7f4809b5, #225d71, #d85789);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav div {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #FFDEE9;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav ul li {
+            cursor: pointer;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            transition: 0.3s;
+            color: #FCEABB;
+        }
+
+        nav ul li:hover {
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 10px #00FFD1;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #FF6B6B, #FFD93D, #6BCB77, #4D96FF);
+            background-size: 300% 300%;
+            animation: gradientShift 6s ease infinite;
+            margin: 0 2rem;
+            border-radius: 6px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease-in-out;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #FFD93D;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: transparent;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.7);
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            font-size: 0.8rem;
+            color: #FFD93D;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+
+        button {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(90deg, #FF6B6B, #FFD93D);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @keyframes gradientShift {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        @keyframes fadeInUp {
+            from {opacity: 0; transform: translateY(30px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        @keyframes fadeInPage {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div>HEALSYNC+</div>
+    <ul>
+        <li onclick="location.href='/'">Home</li>
+        <li onclick="location.href='/about'">About</li>
+        <li onclick="location.href='/contact'">Contact</li>
+        <li onclick="location.href='/blog'">Blog</li>
+        <li onclick="location.href='/history'">History</li>
+    </ul>
+</nav>
+
+<div class="progress-bar"></div>
+
+<div class="container">
+    <h2>{{ page_title }}</h2>
+
+    <form method="POST">
+        {% for field in fields %}
+        <div class="input-group">
+            <input type="text"
+                   name="{{ field.name }}"
+                   value="{{ session.get(field.name, '') }}"
+                   placeholder=" "
+                   required>
+            <label>{{ field.label }}</label>
+        </div>
+        {% endfor %}
+
+        <div class="navigation">
+            {% if back_url %}
+            <a href="{{ back_url }}"><button type="button">Back</button></a>
+            {% endif %}
+            <button type="submit">Next</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

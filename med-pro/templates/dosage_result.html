@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dosage Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dosage.css') }}">
+</head>
+<body>
+
+<div class="result-card">
+    <h2>Dosage Recommendation</h2>
+
+    <p><strong>Medicine:</strong> {{ data.medicine.capitalize() }}</p>
+    <p><strong>Age:</strong> {{ data.age }} years</p>
+    <p><strong>Weight:</strong> {{ data.weight }} kg</p>
+
+    <p class="highlight">
+        Recommended Dosage: {{ data.dosage_mg }} mg
+    </p>
+
+    <a href="/dosage-calculator"><button>Recalculate</button></a>
+</div>
+
+</body>
+</html>

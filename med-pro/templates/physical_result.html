@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Physical Checkup Result</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #eef2f3;
+        }
+        .card {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Your Physical Checkup Diagnosis</h2>
+
+    <p><strong>BMI:</strong> {{ result.bmi }} ({{ result.bmi_status }})</p>
+    <p><strong>Blood Pressure:</strong> {{ result.bp }}</p>
+    <p><strong>Sugar Level:</strong> {{ result.sugar }}</p>
+    <p><strong>Protein Intake:</strong> {{ result.protein }} g/day</p>
+    <p><strong>Water Intake:</strong> {{ result.water }} L/day</p>
+    <p><strong>Sleep:</strong> {{ result.sleep }} hrs</p>
+    <p><strong>Walking Time:</strong> {{ result.walk }} mins/day</p>
+    <p><strong>Fruits:</strong> {{ result.fruits }} per day</p>
+    <p><strong>Junk Food:</strong> {{ result.junk }} times/week</p>
+
+    <hr>
+    <p><strong>Advice:</strong> {{ result.advice }}</p>
+
+    <a href="/">Go Home</a>
+</div>
+
+</body>
+</html>

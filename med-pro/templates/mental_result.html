@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mental Health Result</title>
+    <style>
+        body {
+            background: #eef2f3;
+            font-family: Arial;
+        }
+        .card {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f3f9ff;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Mental Health Summary</h2>
+
+    <p><strong>Mental Status:</strong> {{ result.mental_status }}</p>
+    <p><strong>Mood:</strong> {{ result.mood }}/10</p>
+    <p><strong>Anxiety:</strong> {{ result.anxiety }}/10</p>
+    <p><strong>Stress:</strong> {{ result.stress }}/10</p>
+    <p><strong>Sleep Quality:</strong> {{ result.sleep_quality }}/10</p>
+    <p><strong>Focus:</strong> {{ result.focus }}/10</p>
+    <p><strong>Energy:</strong> {{ result.energy }}/10</p>
+    <p><strong>Social Interaction:</strong> {{ result.social }}/10</p>
+    <p><strong>Screen Time:</strong> {{ result.screen_time }} hrs/day</p>
+    <p><strong>Positive Thoughts:</strong> {{ result.positivity }}/10</p>
+    <p><strong>Relaxation Time:</strong> {{ result.relax_time }} mins/day</p>
+
+    <hr>
+    <p><strong>Suggested Practices:</strong> {{ result.recommendation }}</p>
+
+    <a href="/">Go Home</a>
+</div>
+
+</body>
+</html>

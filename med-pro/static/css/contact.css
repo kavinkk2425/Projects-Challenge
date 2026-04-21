@@ -1,0 +1,72 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+    color: #333;
+}
+
+.contact-container {
+    max-width: 800px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.8s ease-in-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    text-align: center;
+    font-size: 32px;
+    color: #00796b;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.email-box {
+    margin: 20px auto;
+    background-color: #e0f2f1;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-size: 18px;
+    color: #004d40;
+    font-weight: bold;
+    width: fit-content;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.back-btn {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.back-btn a {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #00796b;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn a:hover {
+    background-color: #004d40;
+}
