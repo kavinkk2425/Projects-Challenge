@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#0a0a0f"/>
+<title>Milestone-by-KK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<div id="bg">
+  <div class="orb" style="top:-80px;left:8%;width:300px;height:300px;background:var(--ac)"></div>
+  <div class="orb" style="top:25%;right:-60px;width:220px;height:220px;background:var(--ac3);animation-delay:3s"></div>
+  <div class="orb" style="bottom:5%;left:15%;width:180px;height:180px;background:var(--ac2);animation-delay:6s"></div>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div id="sl" class="scr">
+<div class="ao">
+<div class="abox">
+  <div class="aglow"></div>
+  <div class="alogo">
+    <div class="aicon">
+      <svg viewBox="0 0 26 26">
+        <path d="M4 4h8v8H4zM14 4h8v8h-8zM4 14h8v8H4zM14 14h8v8h-8z"/>
+      </svg>
+    </div>
+    <div class="atitle">Milestone-by-KK</div>
+    <div class="asub" id="asb">Sign in to your workspace</div>
+  </div>
+  <div class="tabrow">
+    <button class="tbtn on" id="tu" onclick="swTab('user')">User login</button>
+    <button class="tbtn" id="ta" onclick="swTab('admin')">Admin login</button>
+  </div>
+  <div id="le" class="emsg"></div>
+  <div class="af">
+    <label>Username or email</label>
+    <input type="text" id="lu" placeholder="Your username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"/>
+  </div>
+  <div class="af">
+    <label>Password</label>
+    <input type="password" id="lp" placeholder="Password" autocomplete="current-password"/>
+  </div>
+  <button class="bpri" onclick="doL()">Sign in →</button>
+  <p class="alink">No account? <span onclick="goReg()">Register free</span></p>
+</div>
+</div>
+</div>
+
+<!-- REGISTER SCREEN -->
+<div id="sr" class="scr hidden">
+<div class="ao">
+<div class="abox">
+  <div class="aglow" style="background:var(--ac3)"></div>
+  <div class="alogo">
+    <div class="aicon" style="background:linear-gradient(135deg,var(--ac3),var(--gr))">
+      <svg viewBox="0 0 26 26" fill="white">
+        <circle cx="11" cy="8" r="4"/>
+        <path d="M3 22c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+        <line x1="21" y1="4" x2="21" y2="10" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <line x1="18" y1="7" x2="24" y2="7" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="atitle">Create account</div>
+    <div class="asub">Join Milestone-by-KK today</div>
+  </div>
+  <div id="re2" class="emsg"></div>
+  <div id="ro" class="okmsg"></div>
+  <div class="af">
+    <label>Full name</label>
+    <input type="text" id="rn" placeholder="Your name" autocomplete="name"/>
+  </div>
+  <div class="af">
+    <label>Username</label>
+    <input type="text" id="ru" placeholder="Choose a username" autocomplete="username" autocapitalize="none" autocorrect="off"/>
+  </div>
+  <div class="af">
+    <label>Email</label>
+    <input type="email" id="rmail" placeholder="you@email.com" autocomplete="email"/>
+  </div>
+  <div class="af">
+    <label>Password</label>
+    <input type="password" id="rp" placeholder="Min 4 characters" autocomplete="new-password"/>
+  </div>
+  <button class="bpri" onclick="doR()">Create account →</button>
+  <p class="alink">Already have one? <span onclick="goL()">Sign in</span></p>
+</div>
+</div>
+</div>
+
+<!-- APP SCREEN -->
+<div id="sa" class="scr hidden" style="display:flex;flex-direction:column">
+  
+  <!-- Top Navigation Bar -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="bdot"></div>
+      <div class="bname">Milestone-by-KK</div>
+    </div>
+    <div class="tright">
+      <div class="uchip">
+        <div class="chav" id="chav"></div>
+        <div class="chn" id="chn"></div>
+        <div class="rpill" id="rpl"></div>
+      </div>
+      <button class="bout" onclick="doOut()">Sign out</button>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="ap" class="main hidden">
+    <div class="phd">
+      <h2>Admin dashboard</h2>
+      <p>System overview &amp; user management</p>
+    </div>
+    
+    <!-- Admin Stats -->
+    <div class="sgrid">
+      <div class="sc">
+        <div class="slbl">Total</div>
+        <div class="sval" id="at">0</div>
+      </div>
+      <div class="sc">
+        <div class="slbl">Completed</div>
+        <div class="sval" id="ad">0</div>
+      </div>
+      <div class="sc">
+        <div class="slbl">Active</div>
+        <div class="sval" id="aip">0</div>
+      </div>
+      <div class="sc">
+        <div class="slbl">Overdue</div>
+        <div class="sval" id="ao">0</div>
+      </div>
+    </div>
+    
+    <!-- User List -->
+    <div class="sbox">
+      <div class="shead">
+        Registered users 
+        <span class="sub" id="uc">—</span>
+      </div>
+      <div id="ul"></div>
+    </div>
+    
+    <!-- All Milestones -->
+    <div class="sbox">
+      <div class="shead">All milestones (all users)</div>
+      <div id="am" class="mslist"></div>
+    </div>
+  </div>
+
+  <!-- USER PANEL -->
+  <div id="up" class="main hidden">
+    
+    <!-- User Stats -->
+    <div class="sgrid">
+      <div class="sc">
+        <div class="slbl">Total</div>
+        <div class="sval" id="ut">0</div>
+      </div>
+      <div class="sc">
+        <div class="slbl">Done</div>
+        <div class="sval" id="ud">0</div>
+      </div>
+      <div class="sc">
+        <div class="slbl">Active</div>
+        <div class="sval" id="uip">0</div>
+      </div>
+      <div class="sc">
+        <div class="slbl">Overdue</div>
+        <div class="sval" id="uo">0</div>
+      </div>
+    </div>
+    
+    <!-- Add Milestone Form -->
+    <div class="aform">
+      <div class="flbl">New milestone</div>
+      <div class="frow">
+        <div class="fi">
+          <label>Title *</label>
+          <input type="text" id="ft" placeholder="What to achieve?"/>
+        </div>
+        <div class="fi">
+          <label>Category</label>
+          <input type="text" id="fc" placeholder="Work, Health..."/>
+        </div>
+      </div>
+      <div class="fi" style="margin-bottom:9px">
+        <label>Notes</label>
+        <textarea id="fd" placeholder="Optional description..."></textarea>
+      </div>
+      <div class="frow">
+        <div class="fi">
+          <label>Due date</label>
+          <input type="date" id="fdu"/>
+        </div>
+        <div class="fi">
+          <label>Priority</label>
+          <select id="fp">
+            <option value="medium">Medium</option>
+            <option value="high">High priority</option>
+            <option value="low">Low priority</option>
+          </select>
+        </div>
+      </div>
+      <button class="badd" onclick="addM()">+ Add milestone</button>
+    </div>
+    
+    <!-- Filter Tabs -->
+    <div class="fwrap">
+      <button class="fbtn on" onclick="setF('all',this)">All</button>
+      <button class="fbtn" onclick="setF('not-started',this)">Not started</button>
+      <button class="fbtn" onclick="setF('in-progress',this)">In progress</button>
+      <button class="fbtn" onclick="setF('done',this)">Done</button>
+      <button class="fbtn" onclick="setF('overdue',this)">Overdue</button>
+    </div>
+    
+    <!-- Milestone List -->
+    <div class="mslist" id="um"></div>
+  </div>
+  
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
